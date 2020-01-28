@@ -14,7 +14,7 @@ from google.showcase_v1beta1.services.echo import transports
 from google.showcase_v1beta1.types import echo
 from google.showcase_v1beta1.types import echo as gs_echo
 
-channel = grpc.insecure_channel('localhost:7469')
+channel = grpc.insecure_channel('localhost:50051')
 transport = transports.EchoGrpcTransport(channel=channel)
 
 def test_echo():
@@ -45,18 +45,20 @@ def test_collect():
 
   print(response)
 
-def test_chat(self):
+def test_chat():
   client = EchoClient(transport=transport)
 
   content = 'The rain in Spain stays mainly on the Plain!'
   requests = content.split(' ')
-  requests = map(lambda s: echo_pb2.EchoRequest(content=s), requests)
+  requests = map(lambda s: gs_echo.EchoRequest(content=s), requests)
   responses = client.chat(iter(requests))
-  responses = map(lambda r: r.content, responses)
-  print(responses)
+  for res in responses:
+    print(res)
+  print("trailing metadata...")
+  print(responses.trailing_metadata())
 
 #test_echo()
-test_expand()
+#test_expand()
 #test_collect()
-#test_chat()
+test_chat()
 
