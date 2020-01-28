@@ -1,6 +1,9 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+showcase_generated/.mypy_cache/
+showcase_generated/.nox/
+
 
 # C extensions
 *.so
