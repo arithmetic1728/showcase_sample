@@ -23,11 +23,11 @@ def run_should_fail():
   client = EchoClient(transport=transport)
   try:
     request = gs_echo.ExpandRequest(content='one two three four')
-    response = client.expand(request)
-    print("got response")
-    print(response)
-    for message in response:
+    responses = client.expand(request)
+    for message in responses:
       print(message)
+    print("trailing metadata...")
+    print(responses.trailing_metadata())
   except:
       print(sys.exc_info())
 
@@ -40,11 +40,11 @@ def run_should_pass():
   transport = transports.EchoGrpcTransport(channel=intercept_channel)
   client = EchoClient(transport=transport)
   request = gs_echo.ExpandRequest(content='one two three four')
-  response = client.expand(request)
-  print("got response")
-  print(response)
-  for message in response:
+  responses = client.expand(request)
+  for message in responses:
     print(message)
+  print("trailing metadata...")
+  print(responses.trailing_metadata())
 
 run_should_pass()
 run_should_fail()

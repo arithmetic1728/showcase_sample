@@ -18,36 +18,34 @@ channel = grpc.insecure_channel('localhost:50051')
 transport = transports.EchoGrpcTransport(channel=channel)
 
 def test_echo():
+  print("=================test echo ===================")
   client = EchoClient(transport=transport)
   request = gs_echo.EchoRequest(content='hello world')
   response = client.echo(request)
-  print("got response")
   print(response)
-
 
 def test_expand():
+  print("=================test expand ===================")
   client = EchoClient(transport=transport)
   request = gs_echo.ExpandRequest(content='one two three four')
-  response = client.expand(request)
-  print("got response")
-  print(response)
-  for message in response:
+  responses = client.expand(request)
+  for message in responses:
     print(message)
-
+  print("trailing metadata...")
+  print(responses.trailing_metadata())
 
 def test_collect():
+  print("=================test collect ===================")
   client = EchoClient(transport=transport)
-
   content = 'The rain in Spain stays mainly on the Plain!'
   requests = content.split(' ')
   requests = map(lambda s: gs_echo.EchoRequest(content=s), requests)
   response = client.collect(iter(requests))
-
   print(response)
 
 def test_chat():
+  print("=================test chat ===================")
   client = EchoClient(transport=transport)
-
   content = 'The rain in Spain stays mainly on the Plain!'
   requests = content.split(' ')
   requests = map(lambda s: gs_echo.EchoRequest(content=s), requests)

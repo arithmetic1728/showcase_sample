@@ -29,10 +29,10 @@ def run_should_fail():
     responses = client.chat(iter(requests))
     for res in responses:
       print(res)
-      print("trailing metadata...")
-      print(responses.trailing_metadata())
+    print("trailing metadata...")
+    print(responses.trailing_metadata())
   except:
-      print(sys.exc_info())
+    print(sys.exc_info())
 
 def run_should_pass():
   print("================= should pass ====================")
