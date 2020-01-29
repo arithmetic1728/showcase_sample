@@ -21,12 +21,15 @@ def run_should_fail():
   channel = grpc.insecure_channel('localhost:50051')
   transport = transports.EchoGrpcTransport(channel=channel)
   client = EchoClient(transport=transport)
-  request = gs_echo.ExpandRequest(content='one two three four')
-  response = client.expand(request)
-  print("got response")
-  print(response)
-  for message in response:
-    print(message)
+  try:
+    request = gs_echo.ExpandRequest(content='one two three four')
+    response = client.expand(request)
+    print("got response")
+    print(response)
+    for message in response:
+      print(message)
+  except:
+      print(sys.exc_info())
 
 def run_should_pass():
   print("================= should pass ====================")

@@ -57,7 +57,7 @@ def test_chat():
   print("trailing metadata...")
   print(responses.trailing_metadata())
 
-#test_echo()
-#test_expand()
-#test_collect()
+test_echo()
+test_expand()
+test_collect()
 test_chat()

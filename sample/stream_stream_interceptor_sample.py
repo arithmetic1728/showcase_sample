@@ -25,11 +25,14 @@ def run_should_fail():
   content = 'The rain in Spain stays mainly on the Plain!'
   requests = content.split(' ')
   requests = map(lambda s: gs_echo.EchoRequest(content=s), requests)
-  responses = client.chat(iter(requests))
-  for res in responses:
-    print(res)
-  print("trailing metadata...")
-  print(responses.trailing_metadata())
+  try:
+    responses = client.chat(iter(requests))
+    for res in responses:
+      print(res)
+      print("trailing metadata...")
+      print(responses.trailing_metadata())
+  except:
+      print(sys.exc_info())
 
 def run_should_pass():
   print("================= should pass ====================")
