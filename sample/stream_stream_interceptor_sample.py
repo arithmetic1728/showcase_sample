@@ -14,38 +14,12 @@ from google.showcase_v1beta1.services.echo import transports
 from google.showcase_v1beta1.types import echo
 from google.showcase_v1beta1.types import echo as gs_echo
 
-channel = grpc.insecure_channel('localhost:50051')
-transport = transports.EchoGrpcTransport(channel=channel)
+import client_interceptor
 
-def test_echo():
-  client = EchoClient(transport=transport)
-  request = gs_echo.EchoRequest(content='hello world')
-  response = client.echo(request)
-  print("got response")
-  print(response)
-
-
-def test_expand():
-  client = EchoClient(transport=transport)
-  request = gs_echo.ExpandRequest(content='one two three four')
-  response = client.expand(request)
-  print("got response")
-  print(response)
-  for message in response:
-    print(message)
-
-
-def test_collect():
-  client = EchoClient(transport=transport)
-
-  content = 'The rain in Spain stays mainly on the Plain!'
-  requests = content.split(' ')
-  requests = map(lambda s: gs_echo.EchoRequest(content=s), requests)
-  response = client.collect(iter(requests))
-
-  print(response)
-
-def test_chat():
+def run_should_fail():
+  print("================= should fail with 'Access denied!' ====================")
+  channel = grpc.insecure_channel('localhost:50051')
+  transport = transports.EchoGrpcTransport(channel=channel)
   client = EchoClient(transport=transport)
 
   content = 'The rain in Spain stays mainly on the Plain!'
@@ -57,8 +31,23 @@ def test_chat():
   print("trailing metadata...")
   print(responses.trailing_metadata())
 
-#test_echo()
-#test_expand()
-#test_collect()
-test_chat()
+def run_should_pass():
+  print("================= should pass ====================")
+  header_adder_interceptor = client_interceptor.header_adder_interceptor(
+        'one-time-password', '42')
+  channel = grpc.insecure_channel('localhost:50051')
+  intercept_channel = grpc.intercept_channel(channel, header_adder_interceptor)
+  transport = transports.EchoGrpcTransport(channel=intercept_channel)
+  client = EchoClient(transport=transport)
 
+  content = 'The rain in Spain stays mainly on the Plain!'
+  requests = content.split(' ')
+  requests = map(lambda s: gs_echo.EchoRequest(content=s), requests)
+  responses = client.chat(iter(requests))
+  for res in responses:
+    print(res)
+  print("trailing metadata...")
+  print(responses.trailing_metadata())
+
+run_should_pass()
+run_should_fail()
