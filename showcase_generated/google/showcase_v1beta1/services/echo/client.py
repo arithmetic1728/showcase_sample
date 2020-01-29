@@ -196,7 +196,7 @@ class EchoClient(metaclass=EchoClientMeta):
             retry: retries.Retry = gapic_v1.method.DEFAULT,
             timeout: float = None,
             metadata: Sequence[Tuple[str, str]] = (),
-            ) -> gs_echo.EchoResponse:
+            ) -> Iterable[gs_echo.EchoResponse]:
         r"""This method split the given content into words and
         will pass each word back through the stream. This method
         showcases server-side streaming rpcs.
@@ -224,7 +224,7 @@ class EchoClient(metaclass=EchoClientMeta):
                 sent along with the request as metadata.
 
         Returns:
-            ~.gs_echo.EchoResponse:
+            Iterable[~.gs_echo.EchoResponse]:
                 The response message for the Echo
                 methods.
 
@@ -264,7 +264,7 @@ class EchoClient(metaclass=EchoClientMeta):
         return response
 
     def collect(self,
-            request: gs_echo.EchoRequest = None,
+            requests: Iterator[gs_echo.EchoRequest] = None,
             *,
             retry: retries.Retry = gapic_v1.method.DEFAULT,
             timeout: float = None,
@@ -276,7 +276,7 @@ class EchoClient(metaclass=EchoClientMeta):
         This method showcases client-side streaming rpcs.
 
         Args:
-            request (:class:`~.gs_echo.EchoRequest`):
+            requests (Iterator[:class:`~.gs_echo.EchoRequest`]):
                 The request object. The request message used for the
                 Echo, Collect and Chat methods. If content is set in
                 this message then the request will succeed. If status is
@@ -295,7 +295,7 @@ class EchoClient(metaclass=EchoClientMeta):
 
         """
         # Create or coerce a protobuf request object.
-        request = gs_echo.EchoRequest(request)
+        #request = gs_echo.EchoRequest(request)
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
@@ -307,7 +307,7 @@ class EchoClient(metaclass=EchoClientMeta):
 
         # Send the request.
         response = rpc(
-            request,
+            requests,
             retry=retry,
             timeout=timeout,
             metadata=metadata,
