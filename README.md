@@ -1,18 +1,23 @@
-# sample3.8
-showcase py3.8
+# 1. Run showcase server code.
 
-First run showcase server.
+First download the showcase server code.
 ```
-gapic-showcase run
+git clone https://github.com/arithmetic1728/echo_sample.git
 ```
 
-Then install the generated showcase client package
+Then run the server code.
+```
+python echo_sample/handwritten/server.py
+```
+# 2. Run the sample client code.
+
+Install the generated showcase client package
 ```
 cd showcase_generated
 pip install --editable .
 ```
 
-Now we can run the client.
+Now we can run the sample.
 ```
-python example.py
+python ../sample/sample.py
 ```
